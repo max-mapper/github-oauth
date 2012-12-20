@@ -1,0 +1,15 @@
+{
+  "name": "github-oauth",
+  "keywords": ["github", "oauth"],
+  "version": "0.0.1",
+  "author": {
+    "name": "max ogden",
+    "email": "max@maxogden.com"
+  }
+  "dependencies": {
+    "request": "2.12.0"
+  },
+  "engines": {
+    "node": "v0.8.x"
+  }
+}
