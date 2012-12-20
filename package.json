@@ -1,11 +1,12 @@
 {
   "name": "github-oauth",
+  "description": "simple functions for doing oauth login with github",
   "keywords": ["github", "oauth"],
   "version": "0.0.1",
   "author": {
     "name": "max ogden",
     "email": "max@maxogden.com"
-  }
+  },
   "dependencies": {
     "request": "2.12.0"
   },

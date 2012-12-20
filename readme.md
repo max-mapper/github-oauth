@@ -1,6 +1,6 @@
 # github-oauth
 
-simple functions for doing oauth with github. compatible with any node http server that uses handler callbacks that look like `function(req, res) {}`
+simple functions for doing oauth login with github. compatible with any node http server that uses handler callbacks that look like `function(req, res) {}`
 
 ## usage
 
