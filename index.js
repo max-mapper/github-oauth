@@ -1,4 +1,5 @@
 var request = require('request')
+var events = require('events')
 var url = require('url')
 var path = require('path')
 var crypto = require('crypto')
@@ -10,11 +11,19 @@ module.exports = function(opts) {
   var urlObj = url.parse(opts.baseURL)
   urlObj.pathname = path.join(urlObj.pathname, opts.callbackURI)
   var redirectURI = url.format(urlObj)
+  var emitter = new events.EventEmitter()
   
-  function addRoutes(router) {
+  function addRoutes(router, loginCallback) {
     // compatible with flatiron/director
     router.get(opts.loginURI, login)
     router.get(opts.callbackURI, callback)
+    if (!loginCallback) return
+    emitter.on('error', function(token, err, resp, tokenResp) {
+      loginCallback(err, token, resp, tokenResp)
+    })
+    emitter.on('token', function(token, resp, tokenResp) {
+      loginCallback(false, token, resp, tokenResp)
+    })
   }
   
   function login(req, resp) {
@@ -32,26 +41,21 @@ module.exports = function(opts) {
   function callback(req, resp) {
     var query = url.parse(req.url, true).query
     var code = query.code
-    if (!code) {
-      resp.statusCode = 400
-      resp.end(JSON.stringify({"error": "missing oauth code"}))
-    }
+    if (!code) return emitter.emit('error', {error: 'missing oauth code'})
     var u = 'https://github.com/login/oauth/access_token'
        + '?client_id=' + opts.githubClient
        + '&client_secret=' + opts.githubSecret
        + '&code=' + code
        + '&state=' + state
        ;
-    request.get({url:u, json: true}, function (e, r, body) {
-      if (e) {
-        resp.statusCode = 403
-        resp.end(JSON.stringify(e))
-        return
-      }
-      resp.statusCode = 200
-      resp.end(JSON.stringify(body))
+    request.get({url:u, json: true}, function (err, tokenResp, body) {
+      if (err) return emitter.emit('error', body, err, resp, tokenResp)
+      emitter.emit('token', body, resp, tokenResp)
     })
   }
   
-  return {login: login, callback: callback, addRoutes: addRoutes}
+  emitter.login = login
+  emitter.callback = callback
+  emitter.addRoutes = addRoutes
+  return emitter
 }
