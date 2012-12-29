@@ -8,7 +8,9 @@ simple functions for doing oauth login with github. compatible with any node htt
 var githubOAuth = require('github-oauth')({
   githubClient: process.env['GITHUB_CLIENT'],
   githubSecret: process.env['GITHUB_SECRET'],
-  baseURL: 'http://localhost'
+  baseURL: 'http://localhost',
+  loginURI: '/login',
+  callbackURI: '/callback'
 })
 
 require('http').createServer(function(req, res) {
