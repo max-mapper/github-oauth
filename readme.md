@@ -10,7 +10,8 @@ var githubOAuth = require('github-oauth')({
   githubSecret: process.env['GITHUB_SECRET'],
   baseURL: 'http://localhost',
   loginURI: '/login',
-  callbackURI: '/callback'
+  callbackURI: '/callback',
+  scope: 'user' // optional, default scope is set to user
 })
 
 require('http').createServer(function(req, res) {
