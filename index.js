@@ -7,6 +7,7 @@ var crypto = require('crypto')
 module.exports = function(opts) {
   if (!opts.callbackURI) opts.callbackURI = '/github/callback'
   if (!opts.loginURI) opts.loginURI = '/github/login'
+  if (!opts.scope) opts.scope = 'user'
   var state = crypto.randomBytes(8).toString('hex')
   var urlObj = url.parse(opts.baseURL)
   urlObj.pathname = path.join(urlObj.pathname, opts.callbackURI)
@@ -29,7 +30,7 @@ module.exports = function(opts) {
   function login(req, resp) {
     var u = 'https://github.com/login/oauth/authorize'
         + '?client_id=' + opts.githubClient
-        + '&scopes=user'
+        + '&scopes=' + opts.scope
         + '&redirect_uri=' + redirectURI
         + '&state=' + state
         ;
