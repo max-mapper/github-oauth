@@ -42,7 +42,7 @@ module.exports = function(opts) {
   function callback(req, resp) {
     var query = url.parse(req.url, true).query
     var code = query.code
-    if (!code) return emitter.emit('error', {error: 'missing oauth code'})
+    if (!code) return emitter.emit('error', {error: 'missing oauth code'}, resp)
     var u = 'https://github.com/login/oauth/access_token'
        + '?client_id=' + opts.githubClient
        + '&client_secret=' + opts.githubSecret
