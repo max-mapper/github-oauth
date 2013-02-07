@@ -30,7 +30,7 @@ module.exports = function(opts) {
   function login(req, resp) {
     var u = 'https://github.com/login/oauth/authorize'
         + '?client_id=' + opts.githubClient
-        + '&scopes=' + opts.scope
+        + '&scope=' + opts.scope
         + '&redirect_uri=' + redirectURI
         + '&state=' + state
         ;
