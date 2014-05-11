@@ -1,17 +1,30 @@
 {
   "name": "github-oauth",
   "description": "simple functions for doing oauth login with github",
-  "keywords": ["github", "oauth"],
-  "version": "0.0.4",
-  "repository": "git://github.com/maxogden/github-oauth.git",
-  "author": {
-    "name": "max ogden",
-    "email": "max@maxogden.com"
+  "keywords": [
+    "github",
+    "oauth"
+  ],
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maxogden/github-oauth.git"
   },
+  "author": "max ogden <max@maxogden.com>",
   "dependencies": {
     "request": "2.12.0"
   },
   "engines": {
     "node": "v0.8.x"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/maxogden/github-oauth/issues"
+  },
+  "homepage": "https://github.com/maxogden/github-oauth",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC"
 }
