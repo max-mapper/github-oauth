@@ -39,7 +39,7 @@ module.exports = function(opts) {
     resp.end()
   }
 
-  function callback(req, resp) {
+  function callback(req, resp, cb) {
     var query = url.parse(req.url, true).query
     var code = query.code
     if (!code) return emitter.emit('error', {error: 'missing oauth code'}, resp)
@@ -50,7 +50,17 @@ module.exports = function(opts) {
        + '&state=' + state
        ;
     request.get({url:u, json: true}, function (err, tokenResp, body) {
-      if (err) return emitter.emit('error', body, err, resp, tokenResp)
+      if (err) {
+        if (cb) {
+          err.body = body
+          err.tokenResp = tokenResp
+          return cb(err)
+        }
+        return emitter.emit('error', body, err, resp, tokenResp)
+      }
+      if (cb) {
+        cb(null, body)
+      }
       emitter.emit('token', body, resp, tokenResp)
     })
   }
