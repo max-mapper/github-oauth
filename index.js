@@ -1,7 +1,6 @@
 var request = require('request')
 var events = require('events')
 var url = require('url')
-var path = require('path')
 var crypto = require('crypto')
 
 module.exports = function(opts) {
@@ -10,7 +9,7 @@ module.exports = function(opts) {
   if (!opts.scope) opts.scope = 'user'
   var state = crypto.randomBytes(8).toString('hex')
   var urlObj = url.parse(opts.baseURL)
-  urlObj.pathname = path.join(urlObj.pathname, opts.callbackURI)
+  urlObj.pathname = url.resolve(urlObj.pathname, opts.callbackURI)
   var redirectURI = url.format(urlObj)
   var emitter = new events.EventEmitter()
   
