@@ -19,11 +19,11 @@ module.exports = function(opts) {
     router.get(opts.loginURI, login)
     router.get(opts.callbackURI, callback)
     if (!loginCallback) return
-    emitter.on('error', function(token, err, resp, tokenResp) {
-      loginCallback(err, token, resp, tokenResp)
+    emitter.on('error', function(token, err, resp, tokenResp, req) {
+      loginCallback(err, token, resp, tokenResp, req)
     })
-    emitter.on('token', function(token, resp, tokenResp) {
-      loginCallback(false, token, resp, tokenResp)
+    emitter.on('token', function(token, resp, tokenResp, req) {
+      loginCallback(false, token, resp, tokenResp, req)
     })
   }
   
@@ -56,12 +56,12 @@ module.exports = function(opts) {
           err.tokenResp = tokenResp
           return cb(err)
         }
-        return emitter.emit('error', body, err, resp, tokenResp)
+        return emitter.emit('error', body, err, resp, tokenResp, req)
       }
       if (cb) {
         cb(null, body)
       }
-      emitter.emit('token', body, resp, tokenResp)
+      emitter.emit('token', body, resp, tokenResp, req)
     })
   }
   
