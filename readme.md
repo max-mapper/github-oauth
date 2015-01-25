@@ -31,6 +31,8 @@ githubOAuth.on('token', function(token, serverResponse) {
 // now go to http://localhost/login
 ```
 
+If you want to support [no scope](https://developer.github.com/v3/oauth/#scopes), pass in `scope: ''`
+
 ## bonus feature
 
 ```javascript
