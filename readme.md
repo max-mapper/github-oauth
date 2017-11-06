@@ -11,7 +11,8 @@ var githubOAuth = require('github-oauth')({
   baseURL: 'http://localhost',
   loginURI: '/login',
   callbackURI: '/callback',
-  scope: 'user' // optional, default scope is set to user
+  scope: 'user', // optional, default scope is set to user
+  host: 'https://github.com' // optional, default https://github.com 
 })
 
 require('http').createServer(function(req, res) {

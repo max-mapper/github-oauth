@@ -4,6 +4,7 @@ var url = require('url')
 var crypto = require('crypto')
 
 module.exports = function(opts) {
+  if (!opts.host) opts.host = 'https://github.com'
   if (!opts.callbackURI) opts.callbackURI = '/github/callback'
   if (!opts.loginURI) opts.loginURI = '/github/login'
   if (typeof opts.scope === 'undefined') opts.scope = 'user'
@@ -27,7 +28,7 @@ module.exports = function(opts) {
   }
   
   function login(req, resp) {
-    var u = 'https://github.com/login/oauth/authorize'
+    var u = opts.host + '/login/oauth/authorize'
         + '?client_id=' + opts.githubClient
         + (opts.scope ? '&scope=' + opts.scope : '')
         + '&redirect_uri=' + redirectURI
@@ -42,7 +43,7 @@ module.exports = function(opts) {
     var query = url.parse(req.url, true).query
     var code = query.code
     if (!code) return emitter.emit('error', {error: 'missing oauth code'}, resp)
-    var u = 'https://github.com/login/oauth/access_token'
+    var u = opts.host + '/login/oauth/access_token'
        + '?client_id=' + opts.githubClient
        + '&client_secret=' + opts.githubSecret
        + '&code=' + code
