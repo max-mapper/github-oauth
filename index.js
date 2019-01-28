@@ -9,7 +9,7 @@ module.exports = function(opts) {
   if (typeof opts.scope === 'undefined') opts.scope = 'user'
   var state = crypto.randomBytes(8).toString('hex')
   var urlObj = url.parse(opts.baseURL)
-  urlObj.pathname = url.resolve(urlObj.pathname, opts.callbackURI)
+  urlObj.pathname = urlObj.pathname.replace(/\/+$/, '') + opts.callbackURI
   var redirectURI = url.format(urlObj)
   var emitter = new events.EventEmitter()
   
